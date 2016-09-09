@@ -3,8 +3,9 @@
   width: 10px;
   border: 1px solid black;
   display: inline-block;
-
+  box-sizing: border-box;
 }
 .row {
   margin: 0;
+  height: 10px;
 }

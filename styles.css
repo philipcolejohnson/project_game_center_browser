@@ -9,3 +9,16 @@
   margin: 0;
   height: 10px;
 }
+
+#snake-home {
+  margin-left: 30%;
+  margin-top: 100px;
+}
+
+.snake {
+  background-color: blue;
+}
+
+.food {
+  background-color: green;
+}

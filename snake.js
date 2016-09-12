@@ -7,9 +7,6 @@ INTERVAL = 700;
 // - change current direction (depends on key, starts in top left go right default)
 // - change position of snake body (pop off end, shift to front, change coordinates)
 var snake = {
-  length: function () {
-    return coords.length;
-  },
 
   changeDirection: function (key) {
     var UP = 119, DOWN = 115, LEFT = 97, RIGHT = 100;

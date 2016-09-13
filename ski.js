@@ -1,5 +1,5 @@
 GRID_WIDTH = 31;
-GRID_HEIGHT = 33;
+GRID_HEIGHT = 25;
 
 BOARD_HEIGHT = 300;
 BOARD_WIDTH = 300;
@@ -26,6 +26,7 @@ var skier = {
     skier.down = false;
     skier.speeding = false;
     skier.height = 0;
+    skier.direction = 2;
   },
 
   move: function() {
@@ -53,38 +54,72 @@ var skier = {
     skier.down = true;
     skier.speeding = false;
 
-    var skierDOM = $('#skier');
-    skierDOM.removeClass("ski-down");
-    skierDOM.removeClass("ski-left");
-    skierDOM.removeClass("ski-right");
-    skierDOM.removeClass("ski-downleft");
-    skierDOM.removeClass("ski-downright");
+    
+    var newDirection;
 
-    if (pos[X] < skierX - LEEWAY && pos[Y] > skierY) {
+    if (skier.height > 0) {
+      skier.down = true;
+      newDirection = 2;
+    } else if (pos[X] <= skierX - LEEWAY && pos[Y] >= skierY) {
       // Lower left
       skier.left = true;
-      skierDOM.addClass("ski-downleft");
+      // skierDOM.addClass("ski-downleft");
+      newDirection = 1;
       // console.log("Lower left")
-    } else if (pos[X] > skierX + LEEWAY && pos[Y] > skierY) {
+    } else if (pos[X] >= skierX + LEEWAY && pos[Y] >= skierY) {
       // lower right
       skier.right = true;
-      skierDOM.addClass("ski-downright");
+      // skierDOM.addClass("ski-downright");
+      newDirection = 3;
       // console.log("lower right")
-    } else if (pos[X] < skierX && pos[Y] <= skierY) {
+    } else if (pos[X] <= skierX && pos[Y] <= skierY) {
       // upper left
       skier.down = false;
-      skierDOM.addClass("ski-left");
+      // skierDOM.addClass("ski-left");
+      newDirection = 4;
       // console.log("upper left")
-    } else if (pos[X] > skierX && pos[Y] <= skierY) {
+    } else if (pos[X] >= skierX && pos[Y] <= skierY) {
       // upper right
       skier.down = false;
-      skierDOM.addClass("ski-right");
+      // skierDOM.addClass("ski-right");
+      newDirection = 6;
       // console.log("upper right")
-    } else if (pos[X] > skierX - LEEWAY && pos[X] < skierX + LEEWAY && pos[Y] >skierY) {
+    } else  {
       // straight down
       skier.speeding = true;
-      skierDOM.addClass("ski-down");
+      // skierDOM.addClass("ski-down");
+      newDirection = 2;
       // console.log("straight down")
+    }
+
+    if (skier.direction !== newDirection) {
+      skier.direction = newDirection;
+    }
+  },
+
+  changeImage: function(direction) {
+    var skierDOM = $('#skier');
+
+    if (skier.height > 0) {
+      skierDOM.addClass("ski-jump");
+    }
+
+    switch(direction) {
+      case 4:
+        skierDOM.addClass("ski-left");
+        break;
+      case 6:
+        skierDOM.addClass("ski-right");
+        break;
+      case 1:
+        skierDOM.addClass("ski-downleft");
+        break;
+      case 2:
+        skierDOM.addClass("ski-down");
+        break;
+      case 3:
+        skierDOM.addClass("ski-downright");
+        break;
     }
   }
 };
@@ -103,7 +138,7 @@ var game = {
   slideBoard: function (rows) {
     for (var i = 0; i < rows; i++) {
       game.board.splice(0, 1);
-      if (game.occupied(skier.pos) && skier.height < 2) {
+      if (game.occupied([skier.pos[X], skier.pos[Y] - skier.height]) && skier.height < 1) {
         game.over();
         return false;
       }
@@ -115,10 +150,10 @@ var game = {
         row.push(0);
       }
       game.board.push(row);
-    }
-      
-    for (var i; i < DENSITY; i++) {
-      game.addObstacle();
+
+      for (var k = 0; k < DENSITY; k++) {
+        game.addObstacle();
+      }
     }
   },
 
@@ -135,7 +170,6 @@ var game = {
     var y = posY || game.board.length - 1;
 
     game.board[y][x] = Math.floor(Math.random() * 3) + 1;
-    // game.obstacles.push( new Obstacle([x, y], Math.floor(Math.random() * 3)) );
   },
 
   deleteObstacle: function(index) {
@@ -162,11 +196,6 @@ var game = {
   tick: function (key) {
     skier.move();
 
-    // hit something?
-    if ( game.occupied(skier.pos) ) {
-      game.over();
-    }
-
     if (skier.height > 0) {
       skier.height--;
     }
@@ -176,7 +205,12 @@ var game = {
 
   over: function() {
     clearInterval(game.loop);
+    $('#ski-home').off("mousemove");
+    $('#ski-home').off("click");
+    view.render();
     $('#ski-home').after('<h1>GAME OVER!</h1>');
+    
+    $('#skier').addClass('ski-fall');
   }
 };
 
@@ -227,6 +261,7 @@ var view = {
       }
 
       $board.append($row);
+      skier.changeImage(skier.direction);
     }
   }
 };

@@ -10,41 +10,51 @@
 #skier {
   background-size: contain;
   background-repeat: no-repeat;
+  z-index: 99;
 }
 
 .ski-down {
-  background-image: url("/skidown.png");
+  background-image: url("skidown.png");
 }
 
 .ski-left {
-  background-image: url("/skileft.png");
+  background-image: url("skileft.png");
 }
 
 .ski-right {
-  background-image: url("/skiright.png");
+  background-image: url("skiright.png");
 }
 
 .ski-downleft {
-  background-image: url("/skidownleft.png");
+  background-image: url("skidownleft.png");
 }
 
 .ski-downright {
-  background-image: url("/skidownright.png");
+  background-image: url("skidownright.png");
+}
+
+.ski-fall {
+  background-image: url("skifall.png");
+}
+
+.ski-jump {
+  background-image: url("skijump.png");
 }
 
 
 
  /* 25 px */
 .box {
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
   /*border: 1px solid black;*/
   display: inline-block;
   box-sizing: border-box;
+  border-radius: 5px;
 }
 .row {
   margin: 0;
-  height: 25px;
+  height: 20px;
 }
 
 .tree {

@@ -234,23 +234,30 @@ var view = {
     var beginX = skier.pos[X] - Math.floor(game.width / 2),
         beginY = 0,
         endX = beginX + GRID_WIDTH,
-        endY = GRID_HEIGHT;
+        endY = GRID_HEIGHT,
+        adjX;
 
     for(var y = beginY; y < endY; y++ ) {
       var $row = $("<div class='row'></div>");
 
       for(var x = beginX; x < endX; x++ ) {
+        if (x >= 0) {
+          adjX = x % BOARD_WIDTH;
+        } else {
+          adjX = x + BOARD_WIDTH;
+        }
+
         $box = $("<div class='box'></div>")
                 .attr("data-x", x)
                 .attr("data-y", y);
 
         // check box for things
-        if (skier.pos[X] === x && skier.pos[Y] - skier.height === y ) {
+        if (skier.pos[X] === adjX && skier.pos[Y] - skier.height === y ) {
           $box.attr("id", "skier");
         }
 
-        if ( game.occupied([x,y]) ) {
-          switch(game.board[y][x]) {
+        if ( game.occupied([adjX,y]) ) {
+          switch(game.board[y][adjX]) {
             case 1:
               $box.addClass("greentree");
               break;

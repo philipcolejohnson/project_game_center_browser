@@ -1,4 +1,4 @@
-GRID_SIZE = 9;
+GRID_SIZE = 19;
 INTERVAL = 700;
 // SnakeModel
 // - body coords (array)

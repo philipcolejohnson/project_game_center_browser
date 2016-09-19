@@ -291,7 +291,7 @@ var controller = {
   },
 
   clicker: function() {
-    if (skier.height > 0) {
+    if (skier.height === 0) {
       skier.height = 4;
     }
   },

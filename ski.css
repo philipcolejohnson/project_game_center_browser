@@ -57,14 +57,19 @@
   height: 20px;
 }
 
+.tree, .rock, .greentree {
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 .tree {
-  background-color: brown;
+  background-image: url("tree.png");
 }
 
 .rock {
-  background-color: gray;
+  background-image: url("rock.png");
 }
 
-.snow {
-  border: 1px solid black;
+.greentree {
+  background-image: url("greentree.png");
 }

@@ -33,10 +33,16 @@ var skier = {
 
     if (skier.left) {
       skier.pos[X] -= 1;
+      if (skier.pos[X] < 0) {
+        skier.pos[X] += BOARD_WIDTH;
+      }
     }
 
     if (skier.right) {
       skier.pos[X] += 1;
+      if (skier.pos[X] > BOARD_WIDTH) {
+        skier.pos[X] %= BOARD_WIDTH;
+      }
     }
 
     if (skier.speeding) {
@@ -246,13 +252,13 @@ var view = {
         if ( game.occupied([x,y]) ) {
           switch(game.board[y][x]) {
             case 1:
-              $box.addClass("tree");
+              $box.addClass("greentree");
               break;
             case 2:
               $box.addClass("rock");
               break;
             default:
-              $box.addClass("snow");
+              $box.addClass("tree");
               break;
           }
         }
@@ -278,7 +284,9 @@ var controller = {
   },
 
   clicker: function() {
-    skier.height = 4;
+    if (skier.height > 0) {
+      skier.height = 4;
+    }
   },
 };
 
